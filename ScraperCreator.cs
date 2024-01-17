@@ -7,6 +7,8 @@ class ScraperCreator
                 return new BoardhouseScraper();
             case("Supersklep"):
                 return new SupersklepScraper();
+            case("Letsboard"):
+                return new LetsboardScraper();
             default:
                 return new BoardhouseScraper();
         }

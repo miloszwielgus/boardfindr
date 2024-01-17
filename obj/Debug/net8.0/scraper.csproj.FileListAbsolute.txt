@@ -315,3 +315,4 @@
 /home/milosz/OneDrive/source/repos/WP/scraper/obj/Debug/net8.0/scraper.pdb
 /home/milosz/OneDrive/source/repos/WP/scraper/obj/Debug/net8.0/scraper.genruntimeconfig.cache
 /home/milosz/OneDrive/source/repos/WP/scraper/obj/Debug/net8.0/ref/scraper.dll
+/home/milosz/OneDrive/source/repos/WP/scraper/obj/Debug/net8.0/scraper.sourcelink.json

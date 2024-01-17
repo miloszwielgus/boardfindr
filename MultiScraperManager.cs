@@ -7,7 +7,8 @@ class MultiScraperManager
     private SnowboardShopScraper specificationScraper = new SpecifactionScraper();
     public MultiScraperManager()
     {
-        Shops = new List<string> {"Boardhouse","Supersklep"}; 
+        Shops = new List<string> {"Boardhouse","Supersklep","Letsboard"}; 
+        //Shops = new List<string> {"Letsboard"}; 
         SnowboardShopScrapers = new List<SnowboardShopScraper>();
 
         InitializeScrapers(); 
@@ -21,27 +22,27 @@ class MultiScraperManager
         } 
     } 
 
-    public async Task ScrapePrices(string brandName, string boardName, string makeYear)
+    public async Task ScrapePrices(string[] args)
     {
         foreach (SnowboardShopScraper scraper in SnowboardShopScrapers)
         {
-            await scraper.ScrapeSite(brandName,boardName,makeYear);
+            await scraper.ScrapeSite(args);
         }
     } 
 
-    public async Task ScrapeSpecification(string brandName, string boardName, string makeYear)
+    public async Task ScrapeSpecification(string[] args)
     {
-        await specificationScraper.ScrapeSite(brandName,boardName,makeYear);
+        await specificationScraper.ScrapeSite(args);
     } 
 
     public async Task RunScrapers(string[] args)
     {
         if(args[0] == "-S") 
         {
-            await ScrapeSpecification(args[1],args[2],args[3]); 
-            await ScrapePrices(args[1],args[2],args[3]);
+            await ScrapeSpecification(args[1..]); 
+            await ScrapePrices(args[1..]);
             return;
         }
-        await ScrapePrices(args[0],args[1],args[2]);
+        await ScrapePrices(args);
     }
 }

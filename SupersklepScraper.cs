@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Playwright;
 class SupersklepScraper : SnowboardShopScraper
 {
@@ -5,7 +6,7 @@ class SupersklepScraper : SnowboardShopScraper
     {
         SiteUrl="https://supersklep.pl/";
     }
-     public override async Task ScrapeSite(string brandName, string boardName, string makeYear)
+     public override async Task ScrapeSite(string[] args)
     {
         using var playwright = await Playwright.CreateAsync();
 
@@ -13,7 +14,16 @@ class SupersklepScraper : SnowboardShopScraper
         var context = await browser.NewContextAsync();
         var page = await context.NewPageAsync();
 
-        string url = string.Format("https://supersklep.pl/catalog/page/products?keywords={0}%20{1}", brandName, boardName, makeYear);
+        string search;
+        if(int.TryParse(args[^1],out int result))
+        {
+            search = string.Join(" ",args[..^1]);
+        }
+        else
+        {
+          search = string.Join(" ",args);
+        }
+        string url = string.Format("https://supersklep.pl/catalog/page/products?keywords={0}", search);
         await page.GotoAsync(url);
         var elementNotFound = await page.Locator("h1:has-text(\"Nie znaleziono żadnych produktów\")").CountAsync();
  

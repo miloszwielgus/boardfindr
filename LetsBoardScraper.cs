@@ -6,7 +6,7 @@ class LetsboardScraper : SnowboardShopScraper
     {
         SiteUrl="https://letsboard.pl/";
     }
-     public override async Task ScrapeSite(string brandName, string boardName, string makeYear)
+     public override async Task ScrapeSite(string[] args)
     {
         using var playwright = await Playwright.CreateAsync();
 
@@ -14,24 +14,23 @@ class LetsboardScraper : SnowboardShopScraper
         var context = await browser.NewContextAsync();
         var page = await context.NewPageAsync();
 
-        string url = string.Format("https://letsboard.pl/produkt/deska-snowboardowa-{0}-{1}-{2}/", brandName, boardName, makeYear);
+        string search = string.Join("+",args);
+        string url = string.Format("https://letsboard.pl/?s={0}", search);
         await page.GotoAsync(url);
-        string pageTitle= await page.TitleAsync();
+        var elementNotFound = await page.Locator("h2:has-text(\"Nic nie znaleziono\")").CountAsync();
 
-        if(pageTitle != "Strona nie została znaleziona – ")
+        if(elementNotFound == 0)
         {
-            var priceElement = page.Locator("xpath=/html/body/div[3]/main/div/div[1]/div/div[1]/div[2]/div[1]/div[2]/div");
-            string locator = string.Format("h1:has-text(\"{0} {1}\")",brandName,boardName);
-            var nameElement = page.Locator(locator); 
+            string cssLocator = String.Format("li.product:has-text(\"{0} {1}\")",args[0],args[1]);
+           var pricesAndNames = await page.Locator(cssLocator).AllInnerTextsAsync(); 
+
             
             BoardDataHolder BoardData = BoardDataHolder.Instance;
-
-            string pricesDiv = await priceElement.InnerTextAsync(); 
-            string boardNameSite = await nameElement.InnerTextAsync();
-
-            
-
-            BoardData.AddBoardPrice(SiteUrl,SelectDiscountedPrice(pricesDiv),boardNameSite);
+            foreach(var priceAndName in pricesAndNames)
+            {
+                var splitValues = priceAndName.Split(new[] { "\n" }, StringSplitOptions.None);
+                BoardData.AddBoardPrice(SiteUrl,splitValues[1],SelectDiscountedPrice(splitValues[2]));
+            }
         }
         await browser.CloseAsync();
     }
@@ -44,4 +43,10 @@ class LetsboardScraper : SnowboardShopScraper
 
     } 
     
+    private string SelectDiscountedPrice(string prices)
+    {
+        var parts = prices.Split(' '); 
+        if (parts.Length >1) return  parts[1];
+        return parts[0];
+    }
 } 

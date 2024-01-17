@@ -37,8 +37,10 @@ class CommandLineInterface
             MultiScraperManager multiScraperManager = new MultiScraperManager();
             await multiScraperManager.RunScrapers(args);
             BoardDataHolder boardDataHolder = BoardDataHolder.Instance;
-
-            boardDataHolder.DisplaySpecifications();
+            if(args[0] == "-S")
+            {
+                boardDataHolder.DisplaySpecifications();
+            }
             boardDataHolder.DisplayPrices();
         }
     }

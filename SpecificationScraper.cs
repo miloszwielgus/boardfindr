@@ -6,15 +6,19 @@ class SpecifactionScraper : SnowboardShopScraper
     {
         SiteUrl="https://www.evo.com/";
     }
-     public override async Task ScrapeSite(string brandName, string boardName, string makeYear)
+     public override async Task ScrapeSite(string[] args)
     {
         using var playwright = await Playwright.CreateAsync();
 
         await using var browser = await playwright.Chromium.LaunchAsync();
         var context = await browser.NewContextAsync();
         var page = await context.NewPageAsync();
-
-        string url = string.Format("https://www.evo.com/outlet/snowboards/{0}-{1}-snowboard-{2}", brandName, boardName, makeYear);
+        
+        string search = string.Join("-",args[..^1]);
+        string year; 
+        if(args[^1] == "2024") year = "";
+        else year = "-"+args[^1];
+        string url = string.Format("https://www.evo.com/outlet/snowboards/{0}-snowboard{1}", search,year);
         await page.GotoAsync(url);
         string pageTitle= await page.TitleAsync();
  
@@ -71,17 +75,5 @@ class SpecifactionScraper : SnowboardShopScraper
         return tableData;
     }
     
-    private void RemoveInvisibleCharacters(List<string> inputStrings)
-    {
-        string[] cleanedStrings;
-
-        for (int i=0; i < inputStrings.Count;i++ )
-        {
-            // Replace invisible characters using a regular expression
-            string cleanedString = Regex.Replace(inputStrings[i], @"\p{C}", string.Empty);
-
-            inputStrings[i] = cleanedString;
-        }
-
-    }
+    
 } 

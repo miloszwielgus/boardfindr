@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-
+using System.Text.RegularExpressions;
 public class BoardDataHolder
 {
     // Properties
@@ -97,11 +97,15 @@ public class BoardDataHolder
         if(PriceList.Count == 0)
         {
             Console.WriteLine("Niestety, Twojej wymarzonej deski nie ma w żadnym z obsługiwanych przez nas sklepów!");
+            return;
         }
+        PriceList.Sort();
         foreach (var item in PriceList)
         {
-            Console.WriteLine($"Sklep: {item.siteUrl}, Cena: {item.price}, Model: {item.boardName}");
+            Console.WriteLine($"Sklep: {item.siteUrl}, Cena: {item.price}zł, Model: {item.boardName}");
         }
-    }
+    } 
+
+    
 
 }

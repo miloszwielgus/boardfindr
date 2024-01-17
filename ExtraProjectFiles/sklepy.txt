@@ -1,0 +1,4 @@
+https://boardhouse.pl/produkt/deska-snowboardowa-ride-warpig-2023/ 
+-interfejs  SnowboardShopScraper
+- klasy pochodne dla konkretnych sklepów 
+- Fabryka SnowboardShopScraperCreator

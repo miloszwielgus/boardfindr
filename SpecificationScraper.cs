@@ -14,10 +14,20 @@ class SpecifactionScraper : SnowboardShopScraper
         var context = await browser.NewContextAsync();
         var page = await context.NewPageAsync();
         
-        string search = string.Join("-",args[..^1]);
+        string search;
         string year; 
         if(args[^1] == "2024") year = "";
-        else year = "-"+args[^1];
+        if(int.TryParse(args[^1],out int result))
+        {
+            search = string.Join("-",args[..^1]);
+            if(args[^1] == "2024") year = "";
+            else year = "-"+args[^1];
+        }
+        else 
+        {
+            search = string.Join("-",args);
+            year = "";
+        }
         string url = string.Format("https://www.evo.com/outlet/snowboards/{0}-snowboard{1}", search,year);
         await page.GotoAsync(url);
         string pageTitle= await page.TitleAsync();
@@ -30,10 +40,12 @@ class SpecifactionScraper : SnowboardShopScraper
             
             var specificationTable = await page.QuerySelectorAsync(".spec-table");
             
-            var resultTable = ExtractTableData(specificationTable); 
-
-            BoardDataHolder BoardData = BoardDataHolder.Instance;
-            BoardData.SetBoardSpecificationDictionary(await resultTable);
+            if(specificationTable != null)
+            {
+                var resultTable = ExtractTableData(specificationTable); 
+                 BoardDataHolder BoardData = BoardDataHolder.Instance;
+                BoardData.SetBoardSpecificationDictionary(await resultTable);
+            }
         }
         await browser.CloseAsync();
     }

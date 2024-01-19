@@ -7,7 +7,7 @@ public class BoardDataHolder
     private Dictionary<string, List<string>> BoardSpecificationDictionary;
 
     // Singleton instance
-    private static BoardDataHolder _instance;
+    private static BoardDataHolder ?_instance;
 
     // Private constructor to prevent instantiation
     private BoardDataHolder()
@@ -41,7 +41,7 @@ public class BoardDataHolder
     
     public void AddBoardPrice(string shopName, string price,string board)
     {
-        PriceList.Add(new SiteBoardPrice(shopName,price,board));
+        PriceList.Add(new SiteBoardPrice(shopName,board,price));
     }
 
     public Dictionary<string, List<string>> GetBoardSpecificationDictonary()

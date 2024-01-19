@@ -18,14 +18,15 @@ class SiteBoardPrice : IComparable
         priceDecimal = decimal.Parse(price,CultureInfo.InvariantCulture);
     } 
 
-    public int CompareTo(object obj)
+    public int CompareTo(object ?obj)
     {
         if (obj == null)
         {
             return 1; 
         }
-        SiteBoardPrice other = obj as SiteBoardPrice;
-        return this.priceDecimal.CompareTo(other.priceDecimal);
+        SiteBoardPrice? other = obj as SiteBoardPrice;
+        if(other != null) return priceDecimal.CompareTo(other.priceDecimal);
+        return 0;
     }
 
 }

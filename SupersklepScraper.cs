@@ -37,7 +37,7 @@ class SupersklepScraper : SnowboardShopScraper
             foreach(var priceAndName in pricesAndNames)
             {
                 var splitValues = priceAndName.Split(new[] { "\n\n" }, StringSplitOptions.None);
-                BoardData.AddBoardPrice(SiteUrl,splitValues[0],splitValues[1]);
+                BoardData.AddBoardPrice(SiteUrl,splitValues[1],splitValues[0]);
             }
            // string pricesDiv = await element.InnerTextAsync(); 
 

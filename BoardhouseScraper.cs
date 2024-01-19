@@ -14,7 +14,16 @@ class BoardhouseScraper : SnowboardShopScraper
         var context = await browser.NewContextAsync();
         var page = await context.NewPageAsync();
 
-        string search = string.Join("+",args);
+        string search;
+        if(int.TryParse(args[^1],out int result))
+        {
+            search = string.Join("+",args[..^1]);
+            
+        }
+        else 
+        {
+            search = string.Join("-",args);
+        }
         string url = string.Format("https://boardhouse.pl/?s={0}&post_type=product&dgwt_wcas=1", search);
         await page.GotoAsync(url);
         var elementNotFound = await page.Locator("p:has-text(\"Nie znaleziono produktów, których szukasz.\")").CountAsync();
@@ -31,7 +40,7 @@ class BoardhouseScraper : SnowboardShopScraper
                 splitValues[1]=splitValues[1].Replace( '\u00A0'.ToString(), " "); 
                 splitValues[1]=splitValues[1].Replace( ",", String.Empty);
                 splitValues[1]=splitValues[1].Replace( ".", ","); 
-                BoardData.AddBoardPrice(SiteUrl,splitValues[0],SelectDiscountedPrice(splitValues[1]));
+                BoardData.AddBoardPrice(SiteUrl,SelectDiscountedPrice(splitValues[1]),splitValues[0]);
             }
         }
         await browser.CloseAsync();

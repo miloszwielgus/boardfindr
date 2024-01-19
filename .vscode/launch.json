@@ -11,7 +11,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/bin/Debug/net8.0/scraper.dll",
-      "args": ["-S","ride", "warpig", "2024"],
+      "args": ["-S", "ride","warpig"],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
       "console": "internalConsole"

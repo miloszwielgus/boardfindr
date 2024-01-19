@@ -1,0 +1,23 @@
+BoardFindr – Miłosz Wielgus – Wzorc Projektowe - 19-01-2024
+
+    Aplikacja umożliwia proste odnajdywanie specyfikacji i cen desek snowabordowych w polskich sklepach
+internetowych z poziomu linii komend. Wykorzystuje ona frameworki .Net i Playwright do pozyskiwania danych ze stron internetowych. 
+Projekt wykorzystuje wzorce: 
+- Singleton (klasa BoardDataHolder) do przechowywania znalezionych danych o desce snowboardowej
+- Fabryka (klasa ScraperCreator) do tworzenia scraperów dla poszczególnych stron 
+    Opis działania: 
+Aby uruchowić program należy wpisać w konsoli: 
+dotnet run [flaga] [producent] [model] [rocznik]
+flagi: 
+flaga '-S' odpowiada za pobranie i wyświetlenie specyfikacji danej deski snowboardowej
+Podawanie rocznika deski jest opcjonalne, jeśli zostanie użyta wtedy flaga '-S' to zostanie wyświetlona 
+specyfikacja najnowszego modelu deski. 
+    Klasy w projekcie: 
+-BoardDataHolder - singleton odpowiadajacy za przechowywanie i wyświetlanie danych o szukanej desce
+-SnowboardShopScraper - klasa abstrakcyjna po której dziedziczą scrapery do wszystkich sklepów
+-SupersklepScraper,LetsboardScraper,BoardhouseScraper,SpecificationScraper - konkretne scrapery
+-MultiScraperManager - odpowiada za inicjazlizacje i włączanie scraperów
+-ScraperCreator - fabryka scraperów 
+-SiteBoardPrice - struktura danych używana w BoardDataHolder do trzymania trójki: strona,cena,model deski
+-CommandLineInterface - odpowiada za weryfikacje podawanych argumentów i odpowiednie ich przekazanie  
+-Main

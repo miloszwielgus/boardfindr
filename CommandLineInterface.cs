@@ -18,13 +18,10 @@ class CommandLineInterface
             case (false,0):
                 Console.WriteLine("Nie podałeś żadnych argumentów!");
                 return false;
-            case (true,4):
+            case (true,>2):
                 return true;
-            case (false,3):
+            case (false,>1):
                 return true;
-            case (false,>3):
-                Console.WriteLine("Za dużo argumentów!");
-                return false;
             default:
                 System.Console.WriteLine("Zły format argumentów!");
                 return false;

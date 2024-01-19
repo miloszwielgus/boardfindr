@@ -29,7 +29,8 @@ class LetsboardScraper : SnowboardShopScraper
             foreach(var priceAndName in pricesAndNames)
             {
                 var splitValues = priceAndName.Split(new[] { "\n" }, StringSplitOptions.None);
-                BoardData.AddBoardPrice(SiteUrl,splitValues[1],SelectDiscountedPrice(splitValues[2]));
+                
+                BoardData.AddBoardPrice(SiteUrl,SelectDiscountedPrice(splitValues[1]),splitValues[0]);
             }
         }
         await browser.CloseAsync();
@@ -45,6 +46,10 @@ class LetsboardScraper : SnowboardShopScraper
     
     private string SelectDiscountedPrice(string prices)
     {
+        if( prices.Count(c => char.ToLower(c) == char.ToLower('z')) == 2)
+        {
+            return prices;
+        }
         var parts = prices.Split(' '); 
         if (parts.Length >1) return  parts[1];
         return parts[0];

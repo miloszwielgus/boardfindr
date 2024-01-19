@@ -1,4 +1,7 @@
-https://boardhouse.pl/produkt/deska-snowboardowa-ride-warpig-2023/ 
--interfejs  SnowboardShopScraper
-- klasy pochodne dla konkretnych sklepów 
-- Fabryka SnowboardShopScraperCreator
+dotnet run ride warpig
+dotnet run -S ride warpig
+dotnet run ride warpig 2023
+dotnet run -S ride warpig 2023
+dotnet run -S k2 party platter 
+dotnet run -S capita defenders of awesome  
+dotnet run lib tech skate banana
